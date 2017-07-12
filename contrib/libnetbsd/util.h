@@ -34,7 +34,12 @@
 #define _LIBNETBSD_UTIL_H_
 
 #include <sys/types.h>
+#if __has_include(<libutil.h>)
 #include <libutil.h>
+#else
+#include <sys/socket.h>
+#include_next <util.h>
+#endif
 
 void	(*esetfunc(void (*)(int, const char *, ...)))(int, const char *, ...);
 size_t	 estrlcpy(char *, const char *, size_t);
