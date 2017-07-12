@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://gitlab.com/alexrichardson/freebsd-mtree.git
+	branch = master
+	commit = 5a00a7650d3fe25860480633b8a09ee2c27bc173
+	parent = 2ba0044c5771590c9085797a6723f230d8d71ac9
+	cmdver = 0.3.1
