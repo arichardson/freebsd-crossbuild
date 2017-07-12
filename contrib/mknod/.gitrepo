@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://gitlab.com/alexrichardson/freebsd-mknod.git
+	branch = master
+	commit = 2df3b1daefa9e543cf9390730ecac04f7ed7f51d
+	parent = ca65e59cae6dda417022c67b9d20676199d39170
+	cmdver = 0.3.1
