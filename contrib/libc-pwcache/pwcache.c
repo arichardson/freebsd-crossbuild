@@ -259,7 +259,11 @@ grptb_start(void)
  * Return
  *	Pointer to stored name (or a empty string)
  */
+#ifdef __APPLE__
+char *
+#else
 const char *
+#endif
 user_from_uid(uid_t uid, int noname)
 {
 	struct passwd *pw;
@@ -328,7 +332,11 @@ user_from_uid(uid_t uid, int noname)
  * Return
  *	Pointer to stored name (or a empty string)
  */
+#ifdef __APPLE__
+char *
+#else
 const char *
+#endif
 group_from_gid(gid_t gid, int noname)
 {
 	struct group *gr;
