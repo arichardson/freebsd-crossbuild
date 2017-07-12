@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://gitlab.com/alexrichardson/freebsd-libc-pwcache.git
+	branch = master
+	commit = bd252f34a7c9bba3aa10568f2721169753576d32
+	parent = 242fe05cd89b85c2cc870ed0a85ff52c359530c6
+	cmdver = 0.3.1
