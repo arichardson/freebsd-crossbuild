@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://gitlab.com/alexrichardson/freebsd-libnetbsd.git
+	branch = master
+	commit = cd006641580491e9fdb73edbfda5794af65fff5a
+	parent = 4ba6ffe2d3e62cd42ec3e3b5d09f8572e6aca9e3
+	cmdver = 0.3.1
