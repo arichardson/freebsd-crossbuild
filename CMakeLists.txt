@@ -4,7 +4,11 @@ project(freebsd-crossbuild)
 set(CMAKE_C_STANDARD 11)
 add_compile_options(-Werror=implicit-function-declaration)
 include_directories(include)
-
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
+    add_compile_options(-include ${CMAKE_SOURCE_DIR}/include/mac/pre-include.h)
+    # needed for the pwcache APIs
+    add_definitions(-D_DARWIN_C_SOURCE=1)
+endif()
 
 function(prepend_path list prefix) # _list
     set(_tmp "")
@@ -29,19 +33,19 @@ prepend_path(mtree_SRCS contrib/mtree/ ${mtree_SRCS})
 list(APPEND mtree_SRCS contrib/mknod/pack_dev.c)
 
 add_executable(mtree ${mtree_SRCS})
-target_include_directories(mtree PUBLIC contrib/mtree contrib/libnetbsd contrib/mknod)
+target_include_directories(mtree PRIVATE contrib/mtree contrib/libnetbsd contrib/mknod)
 target_link_libraries(mtree PRIVATE pwcache netbsd)
-
 # TODO: add FreeBSD lib/libmd ?
 target_compile_definitions(mtree PUBLIC -DNO_MD5 -DNO_RMD160 -DNO_SHA1 -DNO_SHA2)
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
-    target_compile_options(mtree PUBLIC -include ${CMAKE_SOURCE_DIR}/include/mac/pre-include.h)
-    # needed for the pwcache APIs
-    target_compile_definitions(mtree PUBLIC -D_DARWIN_C_SOURCE=1)
-    target_compile_definitions(pwcache PUBLIC -D_DARWIN_C_SOURCE=1)
-endif()
 
-install(TARGETS mtree RUNTIME DESTINATION bin)
+
+set(rpcgen_SRCS rpc_main.c rpc_clntout.c rpc_cout.c rpc_hout.c rpc_parse.c rpc_sample.c rpc_scan.c
+                rpc_svcout.c rpc_tblout.c rpc_util.c)
+prepend_path(rpcgen_SRCS contrib/rpggen/ ${rpcgen_SRCS})
+add_executable(rpcgen ${rpcgen_SRCS})
+target_include_directories(mtree PRIVATE contrib/rpcgen)
+
+install(TARGETS mtree rpcgen RUNTIME DESTINATION bin)
 
 #CFLAGS+=	-I${SRCTOP}/contrib/mknod
 #.PATH:		${SRCTOP}/contrib/mknod

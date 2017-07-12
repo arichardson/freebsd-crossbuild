@@ -15,3 +15,7 @@
 
 typedef unsigned long u_long;
 typedef unsigned int u_int;
+
+// https://stackoverflow.com/questions/1598773/is-there-a-standard-function-in-c-that-would-return-the-length-of-an-array/1598827#1598827
+// TODO: this should also check that it is an array
+#define nitems(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
