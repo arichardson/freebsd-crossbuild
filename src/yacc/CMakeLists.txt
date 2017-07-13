@@ -5,3 +5,4 @@ add_definitions(-DHAVE_FCNTL_H=1 -DHAVE_MKSTEMP=1 -DMAXTABLE=INT_MAX -DMIXEDCASE
 
 add_crossbuild_executable(yacc SOURCE_PATH ${CHERIBSD_DIR}/contrib/byacc SOURCES ${yacc_SRCS})
 add_executable(Bootstrap::yacc ALIAS yacc)
+add_executable(FreeBSD::yacc ALIAS yacc)

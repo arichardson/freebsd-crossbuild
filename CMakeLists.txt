@@ -20,12 +20,29 @@ function(prepend_path list prefix) # _list
     endforeach(f)
     set(${list} "${_tmp}" PARENT_SCOPE)
 endfunction()
-
+################################
+# libc-pwcache (needed by mtree)
+################################
 add_crossbuild_library(pwcache STATIC contrib/libc-pwcache/pwcache.c)
 target_include_directories(pwcache PRIVATE contrib/libc-pwcache)
-
+add_library(FreeBSD::libpwcache ALIAS pwcache)
+#############################
+# libnetbsd (needed by mtree)
+#############################
 # TODO: build the other sources?
 add_crossbuild_library(netbsd STATIC contrib/libnetbsd/util.c)
+add_library(FreeBSD::libnetbsd ALIAS netbsd)
+
+############################
+# libsbuf (needed by config)
+############################
+add_crossbuild_library(sbuf ${CHERIBSD_DIR}/sys/kern/subr_sbuf.c ${CHERIBSD_DIR}/sys/kern/subr_prf.c)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/sys)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/sys/sys/sbuf.h" "sys/sbuf.h" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/sys/sys/ctype.h" "sys/ctype.h" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
+target_include_directories(sbuf PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include)
+add_library(FreeBSD::libsbuf ALIAS sbuf)
+
 
 set(CHERIBSD_DIR "$ENV{HOME}/cheri/cheribsd" CACHE PATH "Path to the CheriBSD source repository")
 if (NOT EXISTS "${CHERIBSD_DIR}/Makefile")
@@ -39,5 +56,6 @@ add_subdirectory(src/sed)
 
 add_subdirectory(src/compile_et)
 add_subdirectory(src/file2c)
+add_subdirectory(src/config)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
