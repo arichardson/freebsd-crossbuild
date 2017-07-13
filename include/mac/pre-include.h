@@ -4,6 +4,7 @@
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
 #define st_atim st_atimespec
 #define st_mtim st_mtimespec
 #define st_ctim st_ctimespec
@@ -25,6 +26,12 @@
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef size_t vaddr_t;
+
+typedef __darwin_gid_t	__gid_t;
+typedef __darwin_uid_t	__uid_t;
+typedef __darwin_time_t	__time_t;
+typedef __darwin_size_t __size_t;
+
 
 // https://stackoverflow.com/questions/1598773/is-there-a-standard-function-in-c-that-would-return-the-length-of-an-array/1598827#1598827
 // TODO: this should also check that it is an array

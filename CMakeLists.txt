@@ -53,6 +53,7 @@ add_subdirectory(src/yacc)
 add_subdirectory(src/awk)
 add_subdirectory(src/sed)
 
+add_subdirectory(src/mkdb)
 add_subdirectory(src/compile_et)
 add_subdirectory(src/file2c)
 add_subdirectory(src/config)
