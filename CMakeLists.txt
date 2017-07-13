@@ -4,6 +4,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include(AddCrossbuildExecutable)
 
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+    find_library(LibBSD REQUIRED)
+endif()
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_compile_options(-Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type)
