@@ -37,5 +37,6 @@ add_subdirectory(src/yacc)
 add_subdirectory(src/awk)
 
 add_subdirectory(src/compile_et)
+add_subdirectory(src/file2c)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
