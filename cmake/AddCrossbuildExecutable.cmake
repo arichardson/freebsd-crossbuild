@@ -44,6 +44,8 @@ endfunction()
 
 function(add_crossbuild_library _target)
     add_library(${_target} ${ARGN})
+    add_library(FreeBSD::lib${_target} ALIAS ${_target})
+
     if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
         # link to libbsd
         target_link_libraries(${_target} Bootstrap::LibBSD)

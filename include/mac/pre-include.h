@@ -3,7 +3,14 @@
 #include <sys/cdefs.h>
 #include <sys/param.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#define st_atim st_atimespec
+#define st_mtim st_mtimespec
+#define st_ctim st_ctimespec
 #include <sys/time.h>
+
+#include <fcntl.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdint.h>
 
@@ -29,3 +36,11 @@ typedef size_t vaddr_t;
 //#define	roundup(x, y)	((((x)+((y)-1))/(y))*(y))  /* to any y */
 #define	roundup2(x, y)	(((x)+((y)-1))&(~((y)-1))) /* if y is powers of two */
 #define powerof2(x)	((((x)-1)&(x))==0)
+
+#if !defined(__cplusplus)
+#define __min_size(x)   static (x)
+#else
+#define __min_size(x)   (x)
+#endif
+
+#include "utimensat.h"
