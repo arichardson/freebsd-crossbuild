@@ -23,6 +23,7 @@ function(add_crossbuild_executable _target) #  _srcs
     endforeach()
     message(STATUS "${_real_srcs}")
     add_executable(${_target} ${_real_srcs})
+    set_target_properties(${_target} PROPERTIES OUTPUT_NAME freebsd-${_target})
     add_executable(FreeBSD::${_target} ALIAS ${_target})
     if(ACE_SOURCE_PATH)
         target_include_directories(${_target} PRIVATE ${ACE_SOURCE_PATH})
