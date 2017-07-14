@@ -5,6 +5,7 @@ find_path(LIBROKEN_INCLUDE_DIR NAMES getarg.h
 )
 find_library(LIBROKEN_LIBRARY NAMES roken
         PATHS /usr/local/opt/heimdal/lib  # Mac
+        PATH_SUFFIXES heimdal
 )
 
 include(FindPackageHandleStandardArgs)
