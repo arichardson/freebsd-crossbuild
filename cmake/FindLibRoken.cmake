@@ -1,7 +1,11 @@
 find_path(LIBROKEN_INCLUDE_DIR NAMES getarg.h
-        HINTS /usr/local/opt/heimdal/include)
+        PATHS
+        /usr/include/heimdal  # Ubuntu
+        /usr/local/opt/heimdal/include  # Mac
+)
 find_library(LIBROKEN_LIBRARY NAMES roken
-        HINTS /usr/local/opt/heimdal/lib)
+        PATHS /usr/local/opt/heimdal/lib  # Mac
+)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LibRoken
