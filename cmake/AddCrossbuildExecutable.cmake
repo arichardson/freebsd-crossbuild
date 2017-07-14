@@ -30,7 +30,7 @@ function(add_crossbuild_executable _target) #  _srcs
     endif()
     if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
         # link to libbsd
-        target_link_libraries(${_target} Bootstrap::LibBSD)
+        target_link_libraries(${_target} PRIVATE Bootstrap::LibBSD)
         target_include_directories(${_target} SYSTEM BEFORE PRIVATE ${CMAKE_SOURCE_DIR}/crossbuild/include /usr/include)
         target_compile_definitions(${_target} PRIVATE LIBBSD_OVERLAY=1 _GNU_SOURCE=1 _ISOC11_SOURCE=1 _XOPEN_SOURCE=800)
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -39,7 +39,7 @@ function(add_crossbuild_executable _target) #  _srcs
         target_compile_options(${_target} PRIVATE -include ${CMAKE_SOURCE_DIR}/include/mac/pre-include.h)
     endif()
     if(ACE_LINK_LIBRARIES)
-        target_link_libraries(${_target} ${ACE_LINK_LIBRARIES})
+        target_link_libraries(${_target} PRIVATE ${ACE_LINK_LIBRARIES})
     endif()
     install(TARGETS ${_target} RUNTIME DESTINATION bin)
 endfunction()
@@ -50,7 +50,7 @@ function(add_crossbuild_library _target)
 
     if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
         # link to libbsd
-        target_link_libraries(${_target} Bootstrap::LibBSD)
+        target_link_libraries(${_target} PUBLIC Bootstrap::LibBSD)
         target_include_directories(${_target} SYSTEM BEFORE PRIVATE ${CMAKE_SOURCE_DIR}/crossbuild/include /usr/include)
         target_compile_definitions(${_target} PRIVATE LIBBSD_OVERLAY=1 _GNU_SOURCE=1 _ISOC11_SOURCE=1 _XOPEN_SOURCE=800)
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

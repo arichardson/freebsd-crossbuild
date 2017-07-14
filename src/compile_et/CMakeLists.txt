@@ -13,4 +13,4 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lex.c MAIN_DEPENDENCY ${CH
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 list(APPEND compile_et_SRCS ${CMAKE_CURRENT_BINARY_DIR}/parse.c ${CMAKE_CURRENT_BINARY_DIR}/lex.c)
 add_crossbuild_executable(compile_et SOURCE_PATH ${CHERIBSD_DIR}/contrib/com_err SOURCES ${compile_et_SRCS})
-target_link_libraries(compile_et Heimdal::LibRoken)
+target_link_libraries(compile_et PRIVATE Heimdal::LibRoken)
