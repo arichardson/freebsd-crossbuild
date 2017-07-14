@@ -35,8 +35,12 @@ target_include_directories(pwcache PRIVATE contrib/libc-pwcache)
 #############################
 # libnetbsd (needed by mtree)
 #############################
-# TODO: build the other sources?
-add_crossbuild_library(netbsd STATIC contrib/libnetbsd/util.c)
+add_crossbuild_library(netbsd STATIC
+    contrib/libnetbsd/util.c
+    contrib/libnetbsd/strsuftoll.c
+    contrib/libnetbsd/efun.c
+    contrib/libnetbsd/sockaddr_snprintf.c
+)
 ############################
 # libsbuf (needed by config)
 ############################
@@ -64,6 +68,7 @@ add_subdirectory(src/mkdb)
 add_subdirectory(src/compile_et)
 add_subdirectory(src/file2c)
 add_subdirectory(src/config)
+add_subdirectory(src/makefs)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
 add_subdirectory(src/xinstall)
