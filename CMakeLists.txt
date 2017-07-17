@@ -98,6 +98,11 @@ add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
 target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
 add_subdirectory(src/xinstall)
 
+add_simple_crossbuild_program(gencat usr.bin/gencat gencat.c)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/include/nl_types.h" "nl_types.h" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
+target_include_directories(gencat PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/include")
+
 include(ExternalProject)
 ExternalProject_Add(mandoc
     URL http://mdocml.bsd.lv/snapshots/mdocml.tar.gz

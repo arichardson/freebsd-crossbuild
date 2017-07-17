@@ -26,11 +26,12 @@
 #endif
 
 #define __unused __attribute__((unused))
-
+#define __format_arg(fmtarg)    __attribute__((__format_arg__ (fmtarg)))
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef size_t vaddr_t;
 typedef uintptr_t __uintptr_t;
+typedef int __nl_item;
 
 #define _SIZE_T_DECLARED
 #define MAXBSIZE        65536   /* must be power of 2 */
