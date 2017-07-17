@@ -1,7 +1,6 @@
 ################
 # compile_et
 ################
-find_package(LibRoken REQUIRED)
 # run yacc and lex
 set(compile_et_SRCS compile_et.c heimdal_vers.c)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/parse.c MAIN_DEPENDENCY ${CHERIBSD_DIR}/contrib/com_err/parse.y

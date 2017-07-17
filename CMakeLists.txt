@@ -14,6 +14,8 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     find_package(LibBSD REQUIRED)
     set(LINUX 1)
 endif()
+find_package(LibRoken REQUIRED)
+
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

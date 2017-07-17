@@ -56,3 +56,15 @@ strtofflags(char **stringp, u_long *setp, u_long *clrp);
 
 #define EFTYPE EINVAL
 #define MAXLOGNAME      33              /* max login name length (incl. NUL) */
+
+// cap_mkdb
+int cgetnext(char **bp, char **db_array);
+int cgetmatch(const char *buf, const char *name);
+int cgetclose(void);
+
+#define _open open
+#define _close close
+#define _write write
+#define _read read
+
+

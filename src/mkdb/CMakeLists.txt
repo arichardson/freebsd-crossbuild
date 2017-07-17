@@ -1,7 +1,7 @@
 
-if(NOT LINUX)
-    add_crossbuild_executable(cap_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.bin/cap_mkdb SOURCES cap_mkdb.c)
-    target_link_libraries(cap_mkdb PRIVATE db)
+add_crossbuild_executable(cap_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.bin/cap_mkdb SOURCES cap_mkdb.c ${CHERIBSD_DIR}/lib/libc/gen/getcap.c)
+if(LINUX)
+  target_link_libraries(cap_mkdb PRIVATE db Heimdal::LibRoken)
 endif()
 
 add_crossbuild_executable(pwd_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.sbin/pwd_mkdb SOURCES pwd_mkdb.c ${CHERIBSD_DIR}/lib/libc/gen/pw_scan.c )
