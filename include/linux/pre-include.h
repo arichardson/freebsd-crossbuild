@@ -66,6 +66,8 @@ strtofflags(char **stringp, u_long *setp, u_long *clrp);
 # define st_mtimensec st_mtim.tv_nsec
 # define st_ctimensec st_ctim.tv_nsec
 
+int     check_utility_compat(const char *);
+
 // typedef __darwin_gid_t	__gid_t;
 // typedef __darwin_uid_t	__uid_t;
 // typedef __darwin_time_t	__time_t;

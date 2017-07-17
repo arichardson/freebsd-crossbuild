@@ -80,9 +80,11 @@ endfunction()
 add_subdirectory(src/yacc)
 add_subdirectory(src/awk)
 add_subdirectory(src/sed)
-
+add_subdirectory(src/expr)
 
 add_simple_crossbuild_program(cat bin/cat cat.c)
+# # different syntax on Linux
+add_simple_crossbuild_program(mktemp usr.bin/mktemp mktemp.c)
 if(NOT LINUX)
     add_subdirectory(src/mkdb)
 endif()
@@ -92,6 +94,18 @@ add_subdirectory(src/config)
 add_subdirectory(src/makefs)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
+add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
+target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
 add_subdirectory(src/xinstall)
+
+include(ExternalProject)
+ExternalProject_Add(mandoc
+    URL http://mdocml.bsd.lv/snapshots/mdocml.tar.gz
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure
+    BUILD_IN_SOURCE 1
+    BUILD_COMMAND make
+    INSTALL_COMMAND make install DESTDIR=<INSTALL_DIR>)
+install(PROGRAMS ${CMAKE_BINARY_DIR}/mandoc-prefix/usr/local/bin/mandoc DESTINATION bin RENAME freebsd-mandoc)
+
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
