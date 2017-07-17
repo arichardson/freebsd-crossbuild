@@ -94,11 +94,25 @@ __FBSDID("$FreeBSD$");
 
 #define	_DIAGASSERT(x)	assert((x))
 
-#if HAVE_NBTOOL_CONFIG_H
+#if HAVE_NBTOOL_CONFIG_H && 0
 /* XXX Now, re-apply the renaming that we undid above. */
 #define	group_from_gid	__nbcompat_group_from_gid
 #define	user_from_uid	__nbcompat_user_from_uid
 #endif
+
+#ifdef __linux__
+int setpassent(int f) {
+  setpwent();
+  return 0;
+}
+
+int setgroupent(int f) {
+  setgrent();
+  return 0;
+}
+#endif
+
+
 
 #ifdef __weak_alias
 __weak_alias(user_from_uid,_user_from_uid)

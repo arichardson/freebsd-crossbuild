@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
-project(freebsd-crossbuild)
+project(freebsd-crossbuild LANGUAGES C)
+
+if(NOT "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+    message(FATAL_ERROR "This code needs to be compiled with clang, set CMAKE_C_COMPILER=/path/to/clang")
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 include(AddCrossbuildExecutable)
@@ -12,7 +17,7 @@ endif()
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-add_compile_options(-Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type)
+add_compile_options(-Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=undef)
 include_directories(include)
 
 
@@ -34,15 +39,28 @@ endfunction()
 ################################
 add_crossbuild_library(pwcache STATIC contrib/libc-pwcache/pwcache.c)
 target_include_directories(pwcache PRIVATE contrib/libc-pwcache)
+
+if(LINUX)
+    add_crossbuild_library(libc-vis STATIC ${CHERIBSD_DIR}/contrib/libc-vis/vis.c ${CHERIBSD_DIR}/contrib/libc-vis/unvis.c)
+    target_include_directories(libc-vis PUBLIC ${CHERIBSD_DIR}contrib/libc-vis)
+    target_compile_options(libc-vis PRIVATE -DHAVE_VIS=1 -DHAVE_SVIS=0)
+endif()
 #############################
 # libnetbsd (needed by mtree)
 #############################
-add_crossbuild_library(netbsd STATIC
+set(libnetbsd_SRCS
     contrib/libnetbsd/util.c
     contrib/libnetbsd/strsuftoll.c
     contrib/libnetbsd/efun.c
     contrib/libnetbsd/sockaddr_snprintf.c
 )
+if(LINUX)
+    list(APPEND libnetbsd_SRCS ${CHERIBSD_DIR}/lib/libc/gen/strtofflags.c)
+endif()
+add_crossbuild_library(netbsd STATIC ${libnetbsd_SRCS})
+
+target_include_directories(netbsd PUBLIC contrib/libnetbsd)
+
 ############################
 # libsbuf (needed by config)
 ############################
@@ -65,12 +83,15 @@ add_subdirectory(src/sed)
 
 
 add_simple_crossbuild_program(cat bin/cat cat.c)
-
-add_subdirectory(src/mkdb)
+if(NOT LINUX)
+    add_subdirectory(src/mkdb)
+endif()
 add_subdirectory(src/compile_et)
 add_subdirectory(src/file2c)
 add_subdirectory(src/config)
-add_subdirectory(src/makefs)
+if(NOT LINUX)
+  add_subdirectory(src/makefs)
+endif()
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
 add_subdirectory(src/xinstall)

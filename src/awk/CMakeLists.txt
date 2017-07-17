@@ -20,4 +20,5 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/proctab.c" # MAIN_DEPENDE
         COMMAND awk-maketab > "${CMAKE_CURRENT_BINARY_DIR}/proctab.c" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 add_crossbuild_executable(awk SOURCE_PATH ${CHERIBSD_DIR}/contrib/one-true-awk SOURCES ${awk_SRCS})
+target_link_libraries(awk PRIVATE m)
 add_executable(FreeBSD::awk ALIAS awk)

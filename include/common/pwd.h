@@ -11,3 +11,15 @@ pwcache_userdb(
 
 int
 uid_from_user(const char *name, uid_t *uid);
+
+int
+setpassent(int stayopen);
+
+int
+uid_from_user(const char *name, uid_t *uid);
+const char *
+user_from_uid(uid_t uid, int noname);
+
+#ifndef UID_MAX
+#define UID_MAX 65536
+#endif

@@ -1,4 +1,22 @@
 
+function(add_freebsd_deps _target)
+    if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+        # link to libbsd
+        target_link_libraries(${_target} PRIVATE Bootstrap::LibBSD)
+        set(_os_dir linux)
+        target_compile_definitions(${_target} PRIVATE LIBBSD_OVERLAY=1 _GNU_SOURCE=1)
+        # target_include_directories(${_target} PRIVATE SYSTEM /usr/include/freebsd)
+        # TODO: _GNU_SOURCE=1 _ISOC11_SOURCE=1 _XOPEN_SOURCE=800 ?
+    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        set(_os_dir mac)
+        # needed to get access to some APIs (e.g. pwcache)
+        target_compile_definitions(${_target} PRIVATE -D_DARWIN_C_SOURCE=1)
+    endif()
+    target_compile_definitions(${_target} PRIVATE HAVE_NBTOOL_CONFIG_H=1)
+    target_compile_options(${_target} PRIVATE -include ${CMAKE_SOURCE_DIR}/include/${_os_dir}/pre-include.h)
+    target_include_directories(${_target} SYSTEM BEFORE PRIVATE ${CMAKE_SOURCE_DIR}/include/${_os_dir} ${CMAKE_SOURCE_DIR}/include/common)
+endfunction()
+
 # Usage: add_crossbuild_executable(target_name SOURCE_PATH ${CHERIBSD_ROOT}/contrib/foo SOURCES ${SOUCES} ...)
 function(add_crossbuild_executable _target) #  _srcs
     # add the crossbuilt version
@@ -28,16 +46,7 @@ function(add_crossbuild_executable _target) #  _srcs
     if(ACE_SOURCE_PATH)
         target_include_directories(${_target} PRIVATE ${ACE_SOURCE_PATH})
     endif()
-    if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-        # link to libbsd
-        target_link_libraries(${_target} PRIVATE Bootstrap::LibBSD)
-        target_include_directories(${_target} SYSTEM BEFORE PRIVATE ${CMAKE_SOURCE_DIR}/crossbuild/include /usr/include)
-        target_compile_definitions(${_target} PRIVATE LIBBSD_OVERLAY=1 _GNU_SOURCE=1 _ISOC11_SOURCE=1 _XOPEN_SOURCE=800)
-    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        # needed to get access to some APIs (e.g. pwcache)
-        target_compile_definitions(${_target} PRIVATE -D_DARWIN_C_SOURCE=1)
-        target_compile_options(${_target} PRIVATE -include ${CMAKE_SOURCE_DIR}/include/mac/pre-include.h)
-    endif()
+    add_freebsd_deps(${_target})
     if(ACE_LINK_LIBRARIES)
         target_link_libraries(${_target} PRIVATE ${ACE_LINK_LIBRARIES})
     endif()
@@ -47,15 +56,5 @@ endfunction()
 function(add_crossbuild_library _target)
     add_library(${_target} ${ARGN})
     add_library(FreeBSD::lib${_target} ALIAS ${_target})
-
-    if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-        # link to libbsd
-        target_link_libraries(${_target} PUBLIC Bootstrap::LibBSD)
-        target_include_directories(${_target} SYSTEM BEFORE PRIVATE ${CMAKE_SOURCE_DIR}/crossbuild/include /usr/include)
-        target_compile_definitions(${_target} PRIVATE LIBBSD_OVERLAY=1 _GNU_SOURCE=1 _ISOC11_SOURCE=1 _XOPEN_SOURCE=800)
-    elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        # needed to get access to some APIs (e.g. pwcache)
-        target_compile_definitions(${_target} PRIVATE -D_DARWIN_C_SOURCE=1)
-        target_compile_options(${_target} PRIVATE -include ${CMAKE_SOURCE_DIR}/include/mac/pre-include.h)
-    endif()
+    add_freebsd_deps(${_target})
 endfunction()

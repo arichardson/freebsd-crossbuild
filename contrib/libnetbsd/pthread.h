@@ -31,6 +31,8 @@
 #define _LIBNETBSD_PTHREAD_H_
 
 #include_next <pthread.h>
+#if __has_include(<pthread_np.h>)
 #include <pthread_np.h>
+#endif
 
 #endif
