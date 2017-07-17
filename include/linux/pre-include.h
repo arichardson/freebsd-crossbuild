@@ -1,8 +1,11 @@
 #pragma once
 
+#include <features.h>
+
 #include <sys/cdefs.h>
 #include <sys/param.h>
 #include <sys/types.h>
+#include <sys/file.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -41,3 +44,15 @@ strtofflags(char **stringp, u_long *setp, u_long *clrp);
 # define st_atimensec st_atim.tv_nsec	/* Backward compatibility.  */
 # define st_mtimensec st_mtim.tv_nsec
 # define st_ctimensec st_ctim.tv_nsec
+
+#ifndef GID_MAX
+#define GID_MAX 65536
+#endif
+
+
+#ifndef UID_MAX
+#define UID_MAX 65536
+#endif
+
+#define EFTYPE EINVAL
+#define MAXLOGNAME      33              /* max login name length (incl. NUL) */

@@ -22,7 +22,3 @@ const
 #endif
 char *
 user_from_uid(uid_t uid, int noname);
-
-#ifndef UID_MAX
-#define UID_MAX 65536
-#endif

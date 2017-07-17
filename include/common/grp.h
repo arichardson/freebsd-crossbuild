@@ -23,7 +23,3 @@ const
 #endif
 char *
 group_from_gid(gid_t gid, int noname);
-
-#ifndef GID_MAX
-#define GID_MAX 65536
-#endif
