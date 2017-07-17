@@ -33,6 +33,7 @@ if(LibBSD_FOUND AND NOT TARGET Bootstrap::LibBSD)
             INTERFACE_COMPILE_OPTIONS "${LibBSD_DEFINITIONS}"
             INTERFACE_INCLUDE_DIRECTORIES "${LibBSD_INCLUDE_DIR}"
             )
+    message(STATUS "Found libbsd: ${LibBSD_LIBRARY} -- includes: ${LibBSD_INCLUDE_DIR}")
 endif()
 
 mark_as_advanced(LibBSD_LIBRARY LibBSD_INCLUDE_DIR)

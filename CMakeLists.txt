@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.8)
 project(freebsd-crossbuild)
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 include(AddCrossbuildExecutable)
+include(FeatureSummary)
 
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-    find_library(LibBSD REQUIRED)
+    find_package(LibBSD REQUIRED)
+    set(LINUX 1)
 endif()
 
 set(CMAKE_C_STANDARD 11)
@@ -72,3 +74,5 @@ add_subdirectory(src/makefs)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
 add_subdirectory(src/xinstall)
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
