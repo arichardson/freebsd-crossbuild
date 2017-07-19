@@ -18,7 +18,7 @@ function(add_freebsd_deps _target)
 endfunction()
 
 # Usage: add_crossbuild_executable(target_name SOURCE_PATH ${CHERIBSD_ROOT}/contrib/foo SOURCES ${SOUCES} ...)
-function(add_crossbuild_executable _target) #  _srcs
+function(_add_freebsd_executable _target) #  _srcs
     # add the crossbuilt version
     # only build the bootstrap libraries if BUILDING_BOOTSTRAP is set
     string(TOUPPER "${_target}" _target_upper_tmp)
@@ -41,8 +41,8 @@ function(add_crossbuild_executable _target) #  _srcs
     endforeach()
     message(STATUS "${_real_srcs}")
     add_executable(${_target} ${_real_srcs})
-    set_target_properties(${_target} PROPERTIES OUTPUT_NAME freebsd-${_target})
     add_executable(FreeBSD::${_target} ALIAS ${_target})
+    set_target_properties(${_target} PROPERTIES OUTPUT_NAME freebsd-${_target})
     if(ACE_SOURCE_PATH)
         target_include_directories(${_target} PRIVATE ${ACE_SOURCE_PATH})
     endif()
@@ -50,7 +50,16 @@ function(add_crossbuild_executable _target) #  _srcs
     if(ACE_LINK_LIBRARIES)
         target_link_libraries(${_target} PRIVATE ${ACE_LINK_LIBRARIES})
     endif()
+endfunction()
+
+function(add_crossbuild_executable _target) #  _srcs
+    _add_freebsd_executable(${_target} ${ARGN})
     install(TARGETS ${_target} RUNTIME DESTINATION bin)
+endfunction()
+
+# The same as add_crossbuild_executable but doesn't install the binary
+function(add_bootstrap_executable _target) #  _srcs
+    _add_freebsd_executable(${_target} ${ARGN})
 endfunction()
 
 function(add_crossbuild_library _target)

@@ -85,6 +85,10 @@ add_subdirectory(src/sed)
 add_subdirectory(src/expr)
 
 add_simple_crossbuild_program(cat bin/cat cat.c)
+add_simple_crossbuild_program(freebsd-test bin/test test.c)
+set_target_properties(freebsd-test PROPERTIES OUTPUT_NAME freebsd-test)  # but install it as freebsd-install
+install(PROGRAMS $<TARGET_FILE:freebsd-test> DESTINATION bin RENAME "freebsd-[")
+
 # # different syntax on Linux
 add_simple_crossbuild_program(mktemp usr.bin/mktemp mktemp.c)
 add_subdirectory(src/mkdb)
@@ -94,6 +98,7 @@ add_subdirectory(src/config)
 add_subdirectory(src/makefs)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
+add_subdirectory(src/sh)
 add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
 target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
 add_subdirectory(src/xinstall)
@@ -111,6 +116,10 @@ ExternalProject_Add(mandoc
     BUILD_COMMAND make
     INSTALL_COMMAND make install DESTDIR=<INSTALL_DIR>)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/mandoc-prefix/usr/local/bin/mandoc DESTINATION bin RENAME freebsd-mandoc)
+install(PROGRAMS ${CMAKE_BINARY_DIR}/mandoc-prefix/usr/local/sbin/makewhatis DESTINATION bin RENAME freebsd-makewhatis)
+
+install(PROGRAMS src/sysctl.py DESTINATION bin RENAME freebsd-sysctl)
+
 
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

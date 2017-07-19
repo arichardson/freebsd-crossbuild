@@ -67,4 +67,15 @@ int cgetclose(void);
 #define _write write
 #define _read read
 
+#define	__printf0like(fmtarg, firstvararg) \
+	    __attribute__((__format__ (__printf0__, fmtarg, firstvararg)))
 
+
+#define       ALIGN(p)                _ALIGN(p)
+/*
+ * Round p (pointer or byte index) up to a correctly-aligned value
+ * for all data types (int, long, ...).   The result is unsigned int
+ * and must be cast to any desired pointer type.
+ */
+#define	_ALIGNBYTES	(sizeof(long) - 1)
+#define	_ALIGN(p)	(((__uintptr_t)(p) + _ALIGNBYTES) & ~_ALIGNBYTES)
