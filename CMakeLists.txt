@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(freebsd-crossbuild LANGUAGES C)
 
-if(NOT "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+if(NOT "${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
     message(FATAL_ERROR "This code needs to be compiled with clang, set CMAKE_C_COMPILER=/path/to/clang")
 endif()
 
