@@ -27,3 +27,7 @@ typedef int __nl_item;
 
 int     check_utility_compat(const char *);
 
+#define _open open
+#define _close close
+#define _write write
+#define _read read

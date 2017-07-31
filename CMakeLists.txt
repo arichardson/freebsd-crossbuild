@@ -86,7 +86,7 @@ add_subdirectory(src/expr)
 
 add_simple_crossbuild_program(cat bin/cat cat.c)
 add_simple_crossbuild_program(freebsd-test bin/test test.c)
-set_target_properties(freebsd-test PROPERTIES OUTPUT_NAME freebsd-test)  # but install it as freebsd-install
+set_target_properties(freebsd-test PROPERTIES OUTPUT_NAME freebsd-test)  # but install it as freebsd-test
 install(PROGRAMS $<TARGET_FILE:freebsd-test> DESTINATION bin RENAME "freebsd-[")
 
 # # different syntax on Linux
