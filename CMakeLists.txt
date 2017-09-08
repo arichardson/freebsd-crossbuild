@@ -81,10 +81,13 @@ endfunction()
 # yacc and awk first as they are needed by other targets
 add_subdirectory(src/yacc)
 add_subdirectory(src/awk)
+# add_subdirectory(src/lex)
 add_subdirectory(src/sed)
 add_subdirectory(src/expr)
 
 add_simple_crossbuild_program(cat bin/cat cat.c)
+add_simple_crossbuild_program(rmdir bin/rmdir rmdir.c)
+
 add_simple_crossbuild_program(freebsd-test bin/test test.c)
 set_target_properties(freebsd-test PROPERTIES OUTPUT_NAME freebsd-test)  # but install it as freebsd-test
 install(PROGRAMS $<TARGET_FILE:freebsd-test> DESTINATION bin RENAME "freebsd-[")
