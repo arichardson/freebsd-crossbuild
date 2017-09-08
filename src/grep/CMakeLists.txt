@@ -1,12 +1,14 @@
-set(grep_SRCS file.c grep.c queue.c util.c)
+set(grep_SRCS file.c grep.c queue.c util.c
+    regex/fastmatch.c regex/hashtable.c regex/tre-compile.c regex/tre-fastmatch.c
+)
 
 add_crossbuild_executable(grep SOURCE_PATH ${CHERIBSD_DIR}/usr.bin/grep SOURCES ${grep_SRCS})
 # TODO: regex/   fastmatch.c hashtable.c tre-compile.c tre-fastmatch.c
-target_compile_definitions(grep PRIVATE -DWITHOUT_FASTMATCH)
 # TODO: if needed could add those
 target_compile_definitions(grep PRIVATE -DWITHOUT_LZMA -DWITHOUT_BZIP2)
 # should not be needed
 target_compile_definitions(grep PRIVATE -DWITHOUT_NLS)
+target_include_directories(grep PRIVATE ${CHERIBSD_DIR}/usr.bin/grep/regex)
 target_link_libraries(grep PRIVATE z)
 
 # TODO: these should rather be symlink
