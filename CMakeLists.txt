@@ -1,3 +1,8 @@
+# Build the host tools necessary for compiling FreeBSD on Linux and Mac:
+# Many base system binaries have slightly different flags and semantics so
+# we need to build the FreeBSD versions which behave the way the FreeBSD
+# build system expects
+
 cmake_minimum_required(VERSION 3.8)
 project(freebsd-crossbuild LANGUAGES C)
 
