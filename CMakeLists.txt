@@ -105,6 +105,10 @@ add_subdirectory(src/rpcgen)
 add_subdirectory(src/sh)
 add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
 target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
+
+add_simple_crossbuild_program(unifdef usr.bin/unifdef unifdef.c)
+
+
 add_subdirectory(src/xinstall)
 
 add_simple_crossbuild_program(gencat usr.bin/gencat gencat.c)
