@@ -133,6 +133,15 @@ ExternalProject_Add(mandoc
 install(PROGRAMS ${CMAKE_BINARY_DIR}/mandoc-prefix/usr/local/bin/mandoc DESTINATION bin RENAME freebsd-mandoc)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/mandoc-prefix/usr/local/sbin/makewhatis DESTINATION bin RENAME freebsd-makewhatis)
 
+# ExternalProject_Add(bmake
+#     URL http://www.crufty.net/ftp/pub/sjg/bmake-20170812.tar.gz
+#     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
+#     BUILD_IN_SOURCE 1
+#     USES_TERMINAL_BUILD 1
+#     BUILD_COMMAND make
+#     INSTALL_COMMAND make install)
+# install(PROGRAMS ${CMAKE_BINARY_DIR}/bmake-prefix/bin/bmake DESTINATION bin RENAME freebsd-bmake)
+
 install(PROGRAMS src/sysctl.py DESTINATION bin RENAME freebsd-sysctl)
 
 
