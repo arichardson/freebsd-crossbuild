@@ -114,9 +114,10 @@ target_include_directories(gencat PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/include")
 
 include(ExternalProject)
 ExternalProject_Add(mandoc
-    URL http://mdocml.bsd.lv/snapshots/mdocml.tar.gz
+    URL http://mdocml.bsd.lv/snapshots/mandoc-1.14.3.tar.gz
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
     BUILD_IN_SOURCE 1
+    USES_TERMINAL_BUILD 1
     BUILD_COMMAND make
     INSTALL_COMMAND make install DESTDIR=<INSTALL_DIR>)
 install(PROGRAMS ${CMAKE_BINARY_DIR}/mandoc-prefix/usr/local/bin/mandoc DESTINATION bin RENAME freebsd-mandoc)
