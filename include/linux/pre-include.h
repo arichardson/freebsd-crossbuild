@@ -55,6 +55,7 @@ strtofflags(char **stringp, u_long *setp, u_long *clrp);
 #endif
 
 #define OFF_MAX ((off_t)((1ULL << (sizeof(off_t) / 8)) - 1))
+#define QUAD_MAX INT64_MAX
 
 #define EFTYPE EINVAL
 #define MAXLOGNAME      33              /* max login name length (incl. NUL) */
