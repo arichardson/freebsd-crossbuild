@@ -16,7 +16,7 @@ function(add_freebsd_deps _target)
         target_link_libraries(${_target} PRIVATE -Wl,-macosx_version_min,10.12)
     endif()
     target_compile_definitions(${_target} PRIVATE HAVE_NBTOOL_CONFIG_H=1)
-    target_compile_options(${_target} PRIVATE -include ${CMAKE_SOURCE_DIR}/include/${_os_dir}/pre-include.h)
+    target_compile_options(${_target} PRIVATE -include ${CMAKE_SOURCE_DIR}/include/${_os_dir}/pre-include.h -Wno-pointer-sign)
     target_include_directories(${_target} SYSTEM BEFORE PRIVATE ${CMAKE_SOURCE_DIR}/include/${_os_dir} ${CMAKE_SOURCE_DIR}/include/common)
 endfunction()
 

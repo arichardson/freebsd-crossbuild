@@ -3,8 +3,6 @@ set(grep_SRCS file.c grep.c queue.c util.c
 )
 
 add_crossbuild_executable(grep SOURCE_PATH ${CHERIBSD_DIR}/usr.bin/grep SOURCES ${grep_SRCS})
-# TODO: regex/   fastmatch.c hashtable.c tre-compile.c tre-fastmatch.c
-# TODO: if needed could add those
 target_compile_definitions(grep PRIVATE -DWITHOUT_LZMA -DWITHOUT_BZIP2)
 # should not be needed
 target_compile_definitions(grep PRIVATE -DWITHOUT_NLS)

@@ -1,6 +1,8 @@
 #pragma once
 
+#ifndef __unused
 #define __unused __attribute__((unused))
+#endif
 #define __format_arg(fmtarg)    __attribute__((__format_arg__ (fmtarg)))
 typedef unsigned long u_long;
 typedef unsigned int u_int;

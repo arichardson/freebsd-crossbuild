@@ -20,6 +20,7 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(LINUX 1)
 endif()
 find_package(LibRoken REQUIRED)
+find_package(Threads REQUIRED)
 
 
 set(CMAKE_C_STANDARD 11)
@@ -109,6 +110,7 @@ add_subdirectory(src/makefs)
 add_subdirectory(src/mtree)
 add_subdirectory(src/rpcgen)
 add_subdirectory(src/sh)
+add_subdirectory(src/sort)
 add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
 target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
 

@@ -33,6 +33,7 @@ list(APPEND sh_SRCS ${CMAKE_CURRENT_BINARY_DIR}/token.h)
 add_crossbuild_executable(sh SOURCE_PATH ${SRC_ROOT} SOURCES ${sh_SRCS})
 target_compile_definitions(sh PRIVATE -DSHELL)
 target_link_libraries(sh PRIVATE edit)
+target_compile_options(sh PRIVATE -Wno-macro-redefined)
 add_executable(FreeBSD::sh ALIAS sh)
 
 # # LIBADD=	edit
