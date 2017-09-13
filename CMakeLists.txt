@@ -143,15 +143,15 @@ add_subdirectory(src/rpcgen)
 add_subdirectory(src/sh)
 add_subdirectory(src/sort)
 add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
+target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
 add_simple_crossbuild_program(uuencode usr.bin/uuencode uuencode.c)
 add_simple_crossbuild_program(uudecode usr.bin/uudecode uudecode.c)
 if(LINUX OR APPLE)
     target_link_libraries(uuencode PRIVATE resolv)
     target_link_libraries(uudecode PRIVATE resolv)
 endif()
-target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
-
 add_simple_crossbuild_program(unifdef usr.bin/unifdef unifdef.c)
+add_simple_crossbuild_program(xargs usr.bin/xargs xargs.c strnsubst.c)
 
 
 add_subdirectory(src/xinstall)
