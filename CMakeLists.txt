@@ -151,7 +151,11 @@ if(LINUX OR APPLE)
     target_link_libraries(uudecode PRIVATE resolv)
 endif()
 add_simple_crossbuild_program(unifdef usr.bin/unifdef unifdef.c)
-add_simple_crossbuild_program(xargs usr.bin/xargs xargs.c strnsubst.c)
+set(xargs_SRCS xargs.c strnsubst.c)
+if(APPLE)
+    list(APPEND xargs_SRCS ${CMAKE_SOURCE_DIR}/include/mac/strtonum.c)
+endif()
+add_simple_crossbuild_program(xargs usr.bin/xargs ${xargs_SRCS})
 
 
 add_subdirectory(src/xinstall)
