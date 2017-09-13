@@ -7,9 +7,8 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/y.tab.c" MAIN_DEPENDENCY 
         COMMAND FreeBSD::yacc -d "${SOURCE_PATH}/config.y" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/config.c" MAIN_DEPENDENCY "${CMAKE_CURRENT_BINARY_DIR}/y.tab.c"
         COMMAND cp -f "${CMAKE_CURRENT_BINARY_DIR}/y.tab.c" "${CMAKE_CURRENT_BINARY_DIR}/config.c" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-message(STATUS "TODO build flex")
 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/lang.c" MAIN_DEPENDENCY ${SOURCE_PATH}/lang.l
-        COMMAND flex -olang.c "${SOURCE_PATH}/lang.l" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+        COMMAND $<TARGET_FILE:lex> -olang.c "${SOURCE_PATH}/lang.l" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 # need to set this as a single argument to make sure CMAKE escapes it properly
 set(file2c_arg "char kernconfstr[] = {' ',0};")
 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/kernconf.c" MAIN_DEPENDENCY ${SOURCE_PATH}/kernconf.tmpl
