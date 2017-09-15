@@ -11,7 +11,7 @@ list(APPEND makefs_SRCS
         ${CHERIBSD_DIR}/contrib/mtree/misc.c
         ${CHERIBSD_DIR}/contrib/mtree/spec.c
 )
-list(APPEND makefs_SRCS ${CMAKE_SOURCE_DIR}/contrib/mknod/pack_dev.c)
+list(APPEND makefs_SRCS ${CHERIBSD_DIR}/contrib/mknod/pack_dev.c)
 
 list(APPEND makefs_SRCS ${cd9660_SRCS} ${ffs_SRCS})
 
@@ -23,11 +23,10 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
 execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/sys/ufs" "ufs" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
 
 add_crossbuild_executable(makefs SOURCE_PATH ${CHERIBSD_DIR}/usr.sbin/makefs SOURCES ${makefs_SRCS})
-target_include_directories(makefs PRIVATE ${CMAKE_SOURCE_DIR}/contrib/libnetbsd)
+target_include_directories(makefs PRIVATE ${CHERIBSD_DIR}/contrib/mknod)
 target_include_directories(makefs PRIVATE ${CHERIBSD_DIR}/contrib/mtree)
 target_include_directories(makefs PRIVATE ${CHERIBSD_DIR}/sys/ufs/ffs)
 target_include_directories(makefs PRIVATE ${CHERIBSD_DIR}/sys/fs/cd9660)
-target_include_directories(makefs PRIVATE ${CHERIBSD_DIR}/contrib/mknod)
 target_include_directories(makefs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
 target_link_libraries(makefs PRIVATE FreeBSD::libnetbsd FreeBSD::libsbuf util FreeBSD::libpwcache)
 if(LINUX)

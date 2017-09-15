@@ -76,7 +76,7 @@ endfunction()
 ################################
 # libc-pwcache (needed by mtree)
 ################################
-add_crossbuild_library(pwcache STATIC contrib/libc-pwcache/pwcache.c)
+add_crossbuild_library(pwcache STATIC ${CHERIBSD_DIR}/contrib/libc-pwcache/pwcache.c)
 target_include_directories(pwcache PRIVATE contrib/libc-pwcache)
 
 if(LINUX)
@@ -88,17 +88,17 @@ endif()
 # libnetbsd (needed by mtree)
 #############################
 set(libnetbsd_SRCS
-    contrib/libnetbsd/util.c
-    contrib/libnetbsd/strsuftoll.c
-    contrib/libnetbsd/efun.c
-    contrib/libnetbsd/sockaddr_snprintf.c
+    ${CHERIBSD_DIR}/lib/libnetbsd/util.c
+    ${CHERIBSD_DIR}/lib/libnetbsd/strsuftoll.c
+    ${CHERIBSD_DIR}/lib/libnetbsd/efun.c
+    ${CHERIBSD_DIR}/lib/libnetbsd/sockaddr_snprintf.c
 )
 if(LINUX)
     list(APPEND libnetbsd_SRCS ${CHERIBSD_DIR}/lib/libc/gen/strtofflags.c)
 endif()
 add_crossbuild_library(netbsd STATIC ${libnetbsd_SRCS})
 
-target_include_directories(netbsd PUBLIC contrib/libnetbsd)
+target_include_directories(netbsd PUBLIC ${CHERIBSD_DIR}/lib/libnetbsd)
 
 ############################
 # libsbuf (needed by config)

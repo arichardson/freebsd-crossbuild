@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#include "../contrib/libnetbsd/util.h"
+// #include "../contrib/libnetbsd/util.h"
 
 #if __has_include(</usr/include/util.h>)
 #include </usr/include/util.h>
