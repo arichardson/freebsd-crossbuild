@@ -6,13 +6,8 @@ set(lex_SRCS
     tblcmp.c yylex.c
     ${CMAKE_CURRENT_BINARY_DIR}/scan.c
     ${CMAKE_CURRENT_BINARY_DIR}/skel.c
-    ${CMAKE_CURRENT_BINARY_DIR}/parse.c
 )
-
-
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/parse.c" "${CMAKE_CURRENT_BINARY_DIR}/parse.h" MAIN_DEPENDENCY ${SOURCE_PATH}/parse.y
-        COMMAND Bootstrap::yacc -d -o parse.c ${SOURCE_PATH}/parse.y
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_yacc_source(lex_SRCS ${SOURCE_PATH}/parse.y)
 
 # Create scan.c with the host system's lex
 add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/scan.c" MAIN_DEPENDENCY ${SOURCE_PATH}/scan.l

@@ -1,4 +1,20 @@
 
+function(add_yacc_source _srcs _yfile)
+    cmake_parse_arguments(_ays "" "BASENAME" "" ${ARGN})
+    if(_ays_BASENAME)
+        set(_basename ${_ays_BASENAME})
+    else()
+        get_filename_component(_basename ${_yfile} NAME_WE)
+    endif()
+    add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c" "${CMAKE_CURRENT_BINARY_DIR}/${_basename}.h" MAIN_DEPENDENCY ${_yfile}
+            COMMAND Bootstrap::yacc -d -o ${_basename}.c ${_yfile}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    set(_new_srcs ${${_srcs}}
+            ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c
+            ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.h)
+    set(${_srcs} ${_new_srcs} PARENT_SCOPE)
+endfunction()
+
 function(add_freebsd_deps _target)
     if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
         # link to libbsd
