@@ -76,7 +76,12 @@ endfunction()
 ################################
 # libc-pwcache (needed by mtree)
 ################################
-add_crossbuild_library(pwcache STATIC ${CHERIBSD_DIR}/contrib/libc-pwcache/pwcache.c)
+set(pwcache_SRCS ${CHERIBSD_DIR}/contrib/libc-pwcache/pwcache.c)
+if(LINUX)
+    list(APPEND pwcache_SRCS ${CMAKE_SOURCE_DIR}/include/linux/setent.c)
+endif()
+add_crossbuild_library(pwcache STATIC ${pwcache_SRCS})
+# target_compile_definitions(pwcache PRIVATE HAVE_NBTOOL_CONFIG_H=0)
 target_include_directories(pwcache PRIVATE contrib/libc-pwcache)
 
 if(LINUX)

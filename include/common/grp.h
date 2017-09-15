@@ -2,6 +2,8 @@
 
 #include_next <grp.h>
 
+#define	group_from_gid	__nbcompat_group_from_gid
+
 int
 pwcache_groupdb(
         int		(*a_setgroupent)(int),
@@ -23,3 +25,4 @@ const
 #endif
 char *
 group_from_gid(gid_t gid, int noname);
+

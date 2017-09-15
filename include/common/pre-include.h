@@ -18,6 +18,10 @@ typedef int __nl_item;
 #define __restrict restrict
 #endif
 
+#ifndef __pure
+#define __pure
+#endif
+
 // https://stackoverflow.com/questions/1598773/is-there-a-standard-function-in-c-that-would-return-the-length-of-an-array/1598827#1598827
 #define nitems(x) ((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
 

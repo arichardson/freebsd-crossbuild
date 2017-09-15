@@ -2,6 +2,8 @@
 
 #include_next <pwd.h>
 
+#define	user_from_uid	__nbcompat_user_from_uid
+
 int
 pwcache_userdb(
         int		(*a_setpassent)(int),
