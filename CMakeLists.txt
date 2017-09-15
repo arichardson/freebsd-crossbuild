@@ -116,6 +116,7 @@ function(add_simple_crossbuild_program _name _path) # _other_sources
 endfunction()
 
 # yacc and awk first as they are needed by other targets
+add_simple_crossbuild_program(mktemp usr.bin/mktemp mktemp.c)
 add_subdirectory(src/yacc)
 add_subdirectory(src/awk)
 add_subdirectory(src/sed)
@@ -130,7 +131,6 @@ set_target_properties(freebsd-test PROPERTIES OUTPUT_NAME freebsd-test)  # but i
 install(PROGRAMS $<TARGET_FILE:freebsd-test> DESTINATION bin RENAME "freebsd-[")
 
 # # different syntax on Linux
-add_simple_crossbuild_program(mktemp usr.bin/mktemp mktemp.c)
 add_subdirectory(src/mkdb)
 add_subdirectory(src/compile_et)
 add_subdirectory(src/file2c)
@@ -144,6 +144,9 @@ add_subdirectory(src/sh)
 add_subdirectory(src/sort)
 add_simple_crossbuild_program(tsort usr.bin/tsort tsort.c)
 target_include_directories(tsort PRIVATE ${CHERIBSD_DIR}/contrib/uthash/src)
+if(LINUX)
+    target_link_libraries(tsort PRIVATE db)
+endif()
 add_simple_crossbuild_program(uuencode usr.bin/uuencode uuencode.c)
 add_simple_crossbuild_program(uudecode usr.bin/uudecode uudecode.c)
 if(LINUX OR APPLE)

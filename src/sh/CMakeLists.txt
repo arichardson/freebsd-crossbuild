@@ -8,11 +8,14 @@ set(sh_SRCS alias.c arith_yacc.c arith_yylex.c cd.c bltin/echo.c error.c eval.c
     mystring.c options.c output.c parser.c ${CHERIBSD_DIR}/usr.bin/printf/printf.c redir.c show.c
     ${CHERIBSD_DIR}/bin/test/test.c trap.c var.c)
 
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/builtins.c" "${CMAKE_CURRENT_BINARY_DIR}/builtins.h"
+add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/builtins.c" "${CMAKE_CURRENT_BINARY_DIR}/builtins.h" DEPENDS mktemp awk sed
     MAIN_DEPENDENCY "${SRC_ROOT}/builtins.def" DEPENDENCIES "${SRC_ROOT}/mkbuiltins"
-    COMMAND env AWK=$<TARGET_FILE:awk> MKTEMP=$<TARGET_FILE:mktemp> /bin/sh "${SRC_ROOT}/mkbuiltins" "${SRC_ROOT}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    COMMAND env PATH=${CMAKE_CURRENT_BINARY_DIR}:/bin:/usr/bin /bin/sh "${SRC_ROOT}/mkbuiltins" "${SRC_ROOT}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 list(APPEND sh_SRCS ${CMAKE_CURRENT_BINARY_DIR}/builtins.c)
 
+file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/awk INPUT ${CMAKE_CURRENT_SOURCE_DIR}/awk.in)
+file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/sed INPUT ${CMAKE_CURRENT_SOURCE_DIR}/sed.in)
+file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mktemp INPUT ${CMAKE_CURRENT_SOURCE_DIR}/mktemp.in)
 
 # to generate proctab.c we first need to build maketab and run that
 add_bootstrap_executable(sh-mknodes SOURCES ${SRC_ROOT}/mknodes.c)
@@ -26,8 +29,8 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/syntax.c" "${CMAKE_CURREN
         COMMAND sh-syntax WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 list(APPEND sh_SRCS ${CMAKE_CURRENT_BINARY_DIR}/syntax.c)
 
-add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/token.h" MAIN_DEPENDENCY "${SRC_ROOT}/mktokens"
-        COMMAND env AWK=$<TARGET_FILE:awk> MKTEMP=$<TARGET_FILE:mktemp> /bin/sh "${SRC_ROOT}/mktokens" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/token.h" MAIN_DEPENDENCY "${SRC_ROOT}/mktokens" DEPENDS mktemp awk sed
+        COMMAND env PATH=${CMAKE_CURRENT_BINARY_DIR}:/bin:/usr/bin /bin/sh "${SRC_ROOT}/mktokens" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 list(APPEND sh_SRCS ${CMAKE_CURRENT_BINARY_DIR}/token.h)
 
 add_crossbuild_executable(sh SOURCE_PATH ${SRC_ROOT} SOURCES ${sh_SRCS})
