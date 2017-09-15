@@ -43,3 +43,4 @@ add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/skel.c" MAIN_DEPENDENCY $
 add_crossbuild_executable(lex SOURCE_PATH ${SOURCE_PATH} SOURCES ${lex_SRCS})
 target_include_directories(lex PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${SOURCE_PATH})
 target_compile_definitions(lex PRIVATE -DHAVE_CONFIG_H)
+add_executable(Bootstrap::lex ALIAS lex)

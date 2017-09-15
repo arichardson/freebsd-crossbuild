@@ -15,6 +15,21 @@ function(add_yacc_source _srcs _yfile)
     set(${_srcs} ${_new_srcs} PARENT_SCOPE)
 endfunction()
 
+
+function(add_lex_source _srcs _lfile)
+    cmake_parse_arguments(_als "" "BASENAME" "" ${ARGN})
+    if(_als_BASENAME)
+        set(_basename ${_als_BASENAME})
+    else()
+        get_filename_component(_basename ${_lfile} NAME_WE)
+    endif()
+    add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c" MAIN_DEPENDENCY ${_lfile}
+            COMMAND Bootstrap::lex -o ${_basename}.c ${_lfile}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    set(_new_srcs ${${_srcs}} ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c)
+    set(${_srcs} ${_new_srcs} PARENT_SCOPE)
+endfunction()
+
 function(add_freebsd_deps _target)
     if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
         # link to libbsd
