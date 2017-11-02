@@ -141,6 +141,18 @@ add_subdirectory(src/compile_et)
 add_subdirectory(src/file2c)
 add_subdirectory(src/find)
 add_simple_crossbuild_program(gensnmptree contrib/bsnmp/gensnmptree/ SOURCES gensnmptree.c)
+check_symbol_exists(strlcpy string.h HAVE_STRLCPY)
+if(HAVE_STRLCPY)
+    target_compile_definitions(gensnmptree PRIVATE HAVE_STRLCPY=1)
+endif()
+check_include_file(err.h HAVE_ERR_H)
+if(HAVE_ERR_H)
+    target_compile_definitions(gensnmptree PRIVATE HAVE_ERR_H=1)
+endif()
+
+
+
+
 target_include_directories(gensnmptree PRIVATE ${CHERIBSD_DIR}/contrib/bsnmp/lib)
 add_subdirectory(src/grep)
 add_subdirectory(src/config)

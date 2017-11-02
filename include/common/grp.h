@@ -20,9 +20,6 @@ setgroupent(int stayopen);
 int
 gid_from_group(const char *name, gid_t *gid);
 
-#ifndef __APPLE__
-const
-#endif
-char *
+const char *
 group_from_gid(gid_t gid, int noname);
 

@@ -19,8 +19,5 @@ setpassent(int stayopen);
 
 int
 uid_from_user(const char *name, uid_t *uid);
-#ifndef __APPLE__
-const
-#endif
-char *
+const char *
 user_from_uid(uid_t uid, int noname);
