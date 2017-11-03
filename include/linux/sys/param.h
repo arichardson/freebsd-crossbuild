@@ -14,3 +14,7 @@
 #ifndef MAXDUMPPGS
 #define MAXDUMPPGS	(DFLTPHYS/PAGE_SIZE)
 #endif
+
+#ifndef __PAST_END
+#define __PAST_END(array, offset) (((__typeof__(*(array)) *)(array))[offset])
+#endif

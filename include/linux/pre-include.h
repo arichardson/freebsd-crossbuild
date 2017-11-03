@@ -16,7 +16,6 @@
 #include <stdlib.h>
 
 #include <limits.h>
-#include <db.h>
 #include <fcntl.h>
 
 #include "../common/pre-include.h"

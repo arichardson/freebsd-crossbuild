@@ -1,7 +1,8 @@
 
 add_crossbuild_executable(cap_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.bin/cap_mkdb SOURCES cap_mkdb.c ${CHERIBSD_DIR}/lib/libc/gen/getcap.c)
+target_link_libraries(cap_mkdb PRIVATE FreeBSD::libdb)
 if(LINUX)
-    target_link_libraries(cap_mkdb PRIVATE db Heimdal::LibRoken)
+    target_link_libraries(cap_mkdb PRIVATE Heimdal::LibRoken)
 endif()
 
 add_crossbuild_executable(pwd_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.sbin/pwd_mkdb SOURCES pwd_mkdb.c ${CHERIBSD_DIR}/lib/libc/gen/pw_scan.c )
@@ -16,7 +17,5 @@ target_compile_definitions(pwd_mkdb PRIVATE __XSI_VISIBLE=800 __POSIX_VISIBLE=20
 
 add_crossbuild_executable(services_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.sbin/services_mkdb SOURCES services_mkdb.c uniq.c)
 target_compile_definitions(services_mkdb PRIVATE _PATH_SERVICES_DB="/var/db/services.db")
-if(LINUX)
-    target_link_libraries(pwd_mkdb PRIVATE db)
-    target_link_libraries(services_mkdb PRIVATE db)
-endif()
+target_link_libraries(pwd_mkdb PRIVATE FreeBSD::libdb)
+target_link_libraries(services_mkdb PRIVATE FreeBSD::libdb)

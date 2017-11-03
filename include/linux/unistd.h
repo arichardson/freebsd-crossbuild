@@ -20,4 +20,8 @@ static inline int getopt_real(int argc, char * const argv[], const char *optstri
 #endif
 }
 
+static inline int issetugid(void) {
+  return 0;
+}
+
 #define getopt getopt_real
