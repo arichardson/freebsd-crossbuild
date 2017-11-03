@@ -30,6 +30,17 @@ function(add_lex_source _srcs _lfile)
     set(${_srcs} ${_new_srcs} PARENT_SCOPE)
 endfunction()
 
+
+# create a link from headers in ${CHERIBSD_DIR}/${_dir} to the current build directory (with the same directory structure)
+function(symlink_freebsd_headers _dir) # _files
+    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_dir})
+    foreach(_hdr ${ARGN})
+        message(STATUS "Linking \${FreeBSD SRC}/${_dir}/${_hdr} to ${CMAKE_CURRENT_BINARY_DIR}/${_dir}")
+        execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/${_dir}/${_hdr}" "${_hdr}"
+                        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_dir}")
+    endforeach()
+endfunction()
+
 function(add_freebsd_deps _target)
     if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
         # link to libbsd
@@ -73,7 +84,7 @@ function(_add_freebsd_executable _target) #  _srcs
         endif()
         list(APPEND _real_srcs ${_src})
     endforeach()
-    message(STATUS "${_real_srcs}")
+    # message(STATUS "${_real_srcs}")
     add_executable(${_target} ${_real_srcs})
     add_executable(FreeBSD::${_target} ALIAS ${_target})
     set_target_properties(${_target} PROPERTIES OUTPUT_NAME freebsd-${_target})

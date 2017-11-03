@@ -110,11 +110,10 @@ target_include_directories(netbsd PUBLIC ${CHERIBSD_DIR}/lib/libnetbsd)
 ############################
 add_crossbuild_library(sbuf STATIC ${CHERIBSD_DIR}/sys/kern/subr_sbuf.c ${CHERIBSD_DIR}/sys/kern/subr_prf.c)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/sys)
-execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/sys/sys/sbuf.h" "sys/sbuf.h" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
-execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/sys/sys/ctype.h" "sys/ctype.h" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
-target_include_directories(sbuf PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include)
+symlink_freebsd_headers(sys/sys sbuf.h ctype.h)
+target_include_directories(sbuf PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/sys)
 
-add_subdirectory(lib/libmd)
+add_subdirectory(lib)
 
 function(add_simple_crossbuild_program _name _path) # _other_sources
     add_crossbuild_executable(${_name} SOURCE_PATH ${CHERIBSD_DIR}/${_path} SOURCES ${ARGN})
@@ -185,7 +184,7 @@ add_subdirectory(src/xinstall)
 
 add_simple_crossbuild_program(gencat usr.bin/gencat gencat.c)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
-execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CHERIBSD_DIR}/include/nl_types.h" "nl_types.h" WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include")
+symlink_freebsd_headers(include nl_types.h)
 target_include_directories(gencat PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/include")
 
 include(ExternalProject)
