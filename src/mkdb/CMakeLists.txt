@@ -1,6 +1,21 @@
 
+
+set(GETUSERSHELL_SRCS
+    ${CHERIBSD_DIR}/lib/libc/gen/getusershell.c
+    ${CHERIBSD_DIR}/lib/libc/net/nsdispatch.c
+)
+add_yacc_source(GETUSERSHELL_SRCS ${CHERIBSD_DIR}/lib/libc/net/nsparser.y YFLAGS "-p_nsyy")
+add_lex_source(GETUSERSHELL_SRCS ${CHERIBSD_DIR}/lib/libc/net/nslexer.l LFLAGS "-P_nsyy")
+
+add_crossbuild_library(getusershell STATIC ${GETUSERSHELL_SRCS})
+target_include_directories(getusershell PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/lib/libc/include)
+symlink_freebsd_headers(include nsswitch.h)
+symlink_freebsd_headers(lib/libc/include nss_tls.h)
+target_link_libraries(getusershell PUBLIC Threads::Threads dl)
+symlink_freebsd_headers(include nsswitch.h)
+
 add_crossbuild_executable(cap_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.bin/cap_mkdb SOURCES cap_mkdb.c ${CHERIBSD_DIR}/lib/libc/gen/getcap.c)
-target_link_libraries(cap_mkdb PRIVATE FreeBSD::libdb)
+target_link_libraries(cap_mkdb PRIVATE FreeBSD::libdb getusershell)
 if(LINUX)
     target_link_libraries(cap_mkdb PRIVATE Heimdal::LibRoken)
 endif()
@@ -17,5 +32,5 @@ target_compile_definitions(pwd_mkdb PRIVATE __XSI_VISIBLE=800 __POSIX_VISIBLE=20
 
 add_crossbuild_executable(services_mkdb SOURCE_PATH ${CHERIBSD_DIR}/usr.sbin/services_mkdb SOURCES services_mkdb.c uniq.c)
 target_compile_definitions(services_mkdb PRIVATE _PATH_SERVICES_DB="/var/db/services.db")
-target_link_libraries(pwd_mkdb PRIVATE FreeBSD::libdb)
-target_link_libraries(services_mkdb PRIVATE FreeBSD::libdb)
+target_link_libraries(pwd_mkdb PRIVATE FreeBSD::libdb getusershell)
+target_link_libraries(services_mkdb PRIVATE FreeBSD::libdb getusershell)

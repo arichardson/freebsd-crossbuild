@@ -1,13 +1,13 @@
 
 function(add_yacc_source _srcs _yfile)
-    cmake_parse_arguments(_ays "" "BASENAME" "" ${ARGN})
+    cmake_parse_arguments(_ays "" "BASENAME" "YFLAGS" ${ARGN})
     if(_ays_BASENAME)
         set(_basename ${_ays_BASENAME})
     else()
         get_filename_component(_basename ${_yfile} NAME_WE)
     endif()
     add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c" "${CMAKE_CURRENT_BINARY_DIR}/${_basename}.h" MAIN_DEPENDENCY ${_yfile}
-            COMMAND Bootstrap::yacc -d -o ${_basename}.c ${_yfile}
+            COMMAND Bootstrap::yacc -d -o ${_basename}.c ${_ays_YFLAGS} ${_yfile}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     set(_new_srcs ${${_srcs}}
             ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c
@@ -16,15 +16,15 @@ function(add_yacc_source _srcs _yfile)
 endfunction()
 
 
-function(add_lex_source _srcs _lfile)
-    cmake_parse_arguments(_als "" "BASENAME" "" ${ARGN})
+function(add_lex_source _srcs _lfile) # _flags
+    cmake_parse_arguments(_als "" "BASENAME" "LFLAGS" ${ARGN})
     if(_als_BASENAME)
         set(_basename ${_als_BASENAME})
     else()
         get_filename_component(_basename ${_lfile} NAME_WE)
     endif()
     add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c" MAIN_DEPENDENCY ${_lfile}
-            COMMAND Bootstrap::lex -o ${_basename}.c ${_lfile}
+            COMMAND Bootstrap::lex -o ${_basename}.c ${_als_LFLAGS} ${_lfile}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     set(_new_srcs ${${_srcs}} ${CMAKE_CURRENT_BINARY_DIR}/${_basename}.c)
     set(${_srcs} ${_new_srcs} PARENT_SCOPE)
