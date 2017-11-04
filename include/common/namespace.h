@@ -13,7 +13,7 @@
 #define _pthread_key_create pthread_key_create
 #define _pthread_getspecific pthread_getspecific
 #define _pthread_setspecific pthread_setspecific
-
+#define _pthread_main_np pthread_main_np
 #define _pthread_once pthread_once
 
 

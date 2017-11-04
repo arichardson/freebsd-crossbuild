@@ -5,4 +5,3 @@
 
 // https://stackoverflow.com/questions/4867839/how-can-i-tell-if-pthread-self-is-the-main-first-thread-in-the-process
 static inline int pthread_main_np(void) { return syscall(SYS_gettid) == getpid(); }
-#define _pthread_main_np pthread_main_np
