@@ -1,8 +1,7 @@
 #pragma once
 
 #include <stdio.h>
-
-// #include "../contrib/libnetbsd/util.h"
+#include <sys/socket.h>
 
 #if __has_include(</usr/include/util.h>)
 #include </usr/include/util.h>

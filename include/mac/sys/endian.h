@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sys/_endian.h>
+#include <stdint.h>
 
 /*
  * General byte order swapping functions.

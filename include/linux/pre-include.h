@@ -1,4 +1,5 @@
 #pragma once
+#ifndef __ASSEMBLER__
 
 #include <features.h>
 
@@ -76,3 +77,5 @@ int cgetclose(void);
  */
 #define	_ALIGNBYTES	(sizeof(long) - 1)
 #define	_ALIGN(p)	(((__uintptr_t)(p) + _ALIGNBYTES) & ~_ALIGNBYTES)
+
+#endif /* !ASSEMBLER */

@@ -1,19 +1,14 @@
 #pragma once
 
 #include_next <unistd.h>
-
+#include <fcntl.h>
 #include <sys/signal.h>
+#include <sys/time.h>
+
 
 static inline int
 eaccess(const char *path, int mode) {
     return faccessat(AT_FDCWD, path, mode, AT_EACCESS);
 }
-
-static inline char *
-strchrnul(const char *s, int c)
-{
-    char *ptr = strchr(s, c);
-    if (!ptr)
-        ptr = strchr(s, '\0');
-    return ptr;
-}
+/* Just needs to be declared, doesn't actually have to be implemented */
+void closefrom(int lowfd);
